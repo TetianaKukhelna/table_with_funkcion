@@ -1,0 +1,13 @@
+:root{
+	display: inline-flex;
+}
+
+.foot{
+    background-color: #272727;
+    color: #e8e8e8;
+}
+
+.cantered-horizontal {
+    display: flex;
+    justify-content: center;
+}
