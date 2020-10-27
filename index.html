@@ -1,41 +1,153 @@
 <!DOCTYPE html>
 <html lang="sk">
 <head>
+    <script src="bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap.css">
     <link rel="stylesheet" href="main.css">
     <meta charset="UTF-8">
     <title>Formular</title>
+
 </head>
-<body>
-
-	<section>
-		<h1 id="id1"> Generator hodnot</h1>
-	</section>
-	<section>
-		<fieldset>
-            <label for="inputX">X </label><br>
-            <input id="inputX" placeholder="Insert X value" type="text" tabindex="1">
-        </fieldset>
-        <fieldset>
-            <label for="inputY">Y </label><br>
-            <input id="inputY" placeholder="Insert Y value" type="text" tabindex="2">
-        </fieldset>
-	</section>
-	
-
-	<button id="myBtn">Send</button>
-
-	<script>
-		document.getElementById("myBtn").addEventListener("click", 
-			function() {
-				alert("must be table");
-			}
-		);
-	</script>
+<body class="vh-100">
+    <div class="mh-30">
+        <section>
+            <h1> Generator hodnot</h1>
+        </section>
+        <section>
+            <fieldset class="mb-10">
+                <input id="inputX" class="width-200p" placeholder="Insert X value" type="number" tabindex="1" max="9" min="1">
+                <label for="inputX" class="invalidateField"> </label>
+            </fieldset>
+            <fieldset>
+                <input id="inputY" class="width-200p" placeholder="Insert Y value" type="number" tabindex="2" max="9" min="1">
+                <label for="inputY" class="invalidateField"> </label>
+            </fieldset>
+        </section>
 
 
-<footer class="cantered-horizontal foot">
-    <p>©2019 by Tetiana Kukhelna. Fakulta elektrotechniky a informatiky Slovenskej technickej univerzity v Bratislave.</p>
-</footer>
+        <!-- Button trigger modal -->
+        <button id="submit" type="button" class="btn btn-primary mt-15" data-toggle="modal" data-target="#staticBackdrop">
+          Launch static backdrop modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Table X * Y</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div id="modalBody" class="modal-body containerGrid">
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Understood</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+    </div>
+
+    <footer>
+        <p class="centered-horizontal">©2019 by Tetiana Kukhelna</p>
+        <p class="centered-horizontal">Fakulta elektrotechniky a informatiky Slovenskej technickej univerzity v Bratislave.</p>
+    </footer>
 
 </body>
+<script>
+function $(id){
+    if( id.startsWith('#') )
+        return document.getElementById(id.substring(1));
+    return document.querySelectorAll(id)
+}
+
+function addElemToDom(item, newElemName, className, inner){
+    let liLast = document.createElement(newElemName);
+    liLast.className = className;
+    liLast.innerHTML = inner;
+    item.append(liLast);
+}
+
+
+function validateField(field){
+    const label = field.labels[0]
+    // const invalidateClass = "invalidateField"
+    const invalidateMessage = 'Invalid value must be 0 < x < 10'
+    const value = Number(field.value)
+    const is_valid = value <= field.max && value >= field.min
+
+    console.log('= = = = = = = = = = = = = = = = = = = = = ')
+    console.log('= = = = = = = = = = = = = = = = = = = = = ')
+    console.log('Is valid', field.id, is_valid)
+    if(is_valid){
+        label.innerHTML = ""
+        return is_valid
+    }
+
+    label.innerHTML = invalidateMessage
+    return is_valid
+}
+
+function validateRequired(){
+    const x = $("#inputX")
+    const y = $("#inputY")
+    const resX = validateField(x)
+    const resY = validateField(y)
+    const is_valid = resX && resY
+    if(!is_valid) {
+        console.log('X = ', Boolean(resX))
+        console.log('Y = ', Boolean(resY))
+        return is_valid
+    }
+    console.log('All valid!')
+    return is_valid
+}
+
+function generateFR(num){
+    let s = ''
+    for(let i=0; i < num; i++){
+        s += '1fr '
+    }
+    return s
+}
+
+
+
+function createTable(){
+    $('#modalBody').innerHTML = ''
+    const is_valid = validateRequired()
+    if (!is_valid ) return
+
+    const xValue = Number($("#inputX").value)+1
+    const yValue = Number($("#inputY").value)+1
+    let modal = $('#modalBody')
+    modal.style.gridTemplateColumns=generateFR(xValue)
+    modal.style.gridTemplateRows=generateFR(yValue)
+
+    for(let j=0; j < yValue; j++){
+        for(let i=0; i < xValue; i++){
+            if(i === 0 && j === 0){
+                addElemToDom(modal, 'div', 'cls', ``)
+            }
+            else if(i === 0){
+                addElemToDom(modal, 'div', 'cls', `Y=${j}`)
+            }else if(i > 0 && j === 0){
+                addElemToDom(modal, 'div', 'cls', `X=${i}`)
+            }else{
+                addElemToDom(modal, 'div', 'cls', `${i} * ${j} = ${(i)*(j)}`)
+            }
+        }
+    }
+}
+
+$("#submit").onclick = createTable
+$("#inputX").onblur = validateRequired
+$("#inputY").onblur = validateRequired
+</script>
 </html>
