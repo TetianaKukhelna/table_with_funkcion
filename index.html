@@ -13,25 +13,24 @@
         <section class="text-button">
             <h1> Generator tabulky</h1>
         </section>
-        <section >
-            <fieldset class="mb-10">
-                <input id="inputX" class="width-200p shadow" placeholder="Insert X value" type="number" tabindex="1" max="9" min="1">
+        <section class="main-section">
+            <fieldset class="fieldset-vertical mb-10">
+                <input id="inputX" class="form-input width-250p shadow" placeholder="Insert X value" type="number" tabindex="1" max="9" min="1">
                 <label for="inputX" class="invalidateField"> </label>
             </fieldset>
-            <fieldset>
-                <input id="inputY" class="width-200p shadow" placeholder="Insert Y value" type="number" tabindex="2" max="9" min="1">
+            <fieldset class="fieldset-vertical mb-10">
+                <input id="inputY" class="form-input width-250p shadow" placeholder="Insert Y value" type="number" tabindex="2" max="9" min="1">
                 <label for="inputY" class="invalidateField"> </label>
             </fieldset>
+            <!-- Button trigger modal -->
+<!--            <button id="submit" type="button" class="btn btn-primary width-250p" data-toggle="modal" data-target="#formModal">-->
+            <button id="submit" type="button" class="btn btn-primary width-250p">
+              <span class="center">Vygenerovat</span>
+            </button>
         </section>
 
-
-        <!-- Button trigger modal -->
-        <button id="submit" type="button" class="btn btn-primary mt-15" data-toggle="modal" data-target="#staticBackdrop">
-          <span class="center">Vygenerovat</span>
-        </button>
-
         <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div id="formModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg">
             <div class="modal-content table-color">
               <div class="modal-header">
@@ -40,7 +39,7 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div id="modalBody" class="modal-body containerGrid table-color cls">
+              <div id="modalBody" class="modal-body containerGrid table-color">
 
               </div>
               <div class="modal-footer">
@@ -50,11 +49,9 @@
             </div>
           </div>
         </div>
-
-
     </div>
 
-    <footer>
+    <footer class="pt-15">
         <p class="centered-horizontal">©2019 by Tetiana Kukhelna</p>
         <p class="centered-horizontal">Fakulta elektrotechniky a informatiky Slovenskej technickej univerzity v Bratislave.</p>
     </footer>
@@ -107,26 +104,17 @@
         return is_valid
     }
 
-    function generateFR(num){
-        let s = ''
-        for(let i=0; i < num; i++){
-            s += '1fr '
-        }
-        return s
-    }
-
-
-
-    function createTable(){
+    function createTable(event){
         $('#modalBody').innerHTML = ''
         const is_valid = validateRequired()
-        if (!is_valid ) return
+        console.log(`Final valid verdict = ${is_valid}`)
+        if (!is_valid ) return false
 
         const xValue = Number($("#inputX").value)+1
         const yValue = Number($("#inputY").value)+1
         let modal = $('#modalBody')
-        modal.style.gridTemplateColumns=generateFR(xValue)
-        modal.style.gridTemplateRows=generateFR(yValue)
+        modal.style.gridTemplateColumns=`repeat(${xValue}, 1fr)`;
+        modal.style.gridTemplateRows=`repeat(${yValue}, 1fr)`;
 
         for(let j=0; j < yValue; j++){
             for(let i=0; i < xValue; i++){
@@ -142,6 +130,11 @@
                 }
             }
         }
+
+        let myModal = new bootstrap.Modal(document.getElementById('formModal'), {
+            keyboard: false
+        })
+        myModal.show()
     }
 
     $("#submit").onclick = createTable
