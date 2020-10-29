@@ -8,6 +8,8 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    /*background-color: #FFC9BE;*/
+    background-color: #C6DCFC;
 }
 
 
@@ -15,7 +17,7 @@ footer{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #272727;
+    background-color: #4e647b;
     color: #e8e8e8;
 }
 
@@ -25,7 +27,7 @@ footer{
 }
 
 .invalidateField{
-    color: #ff0000!important;
+  color: #B6360F;
 }
 
 
@@ -47,16 +49,30 @@ footer{
   /*  "main main . sidebar"*/
   /*  "footer footer footer footer";*/
 }
+.shadow{
+  border-radius: 0.25rem;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  border-color: #7276AA!important;
+
+}
+
+.cls{
+  border-radius: 0.1rem;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  border-color: #7276AA!important;
+  background-color: #6d77a0;
+}
 
 
+.text-button{
+  /*color: #586889;*/
+  color: #2F6C96;
+}
 
 
-
-
-
-
-
-
+.table-color{
+  background-color: #7D88B4;
+}
 
 
 /* = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
