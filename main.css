@@ -31,7 +31,9 @@ footer{
 }
 
 
-
+.modal-boby{
+  padding: 0!important;
+}
 
 
 
@@ -57,9 +59,10 @@ footer{
 }
 
 .cls{
+  border: 1px solid #979bab;
   border-radius: 0.1rem;
-  box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  border-color: #7276AA!important;
+  /*box-shadow: 0 0 5px rgba(255 255 255);*/
+  /*border-color: #7276AA;*/
   background-color: #6d77a0;
 }
 
